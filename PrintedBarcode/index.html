@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>barcode</title>
+  <script src="js/jquery-3.6.4.min.js"></script>
+
+  <script src="js/bootstrap.js"></script>
+  <script src="js/JsBarcode.all.min.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <style>
+    @media print {
+    body {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      padding: 0;
+    }
+
+    .image-div {
+      text-align: center;
+      page-break-inside: avoid;
+    }
+  }
+  
+  </style>
+</head>
+
+<body>
+  <div class="row mt-2 ml-3 mr-3">
+    <div class="col-md-4 text-white card pr-5" style="background-color: #04322e;">
+      <form class="align-middle">
+
+        <div class="form-group row mt-5 mb-4">
+          <input type="text"  class="form-control font-weight-bold col-6 pr-5" id="txtHeader"
+            value="THƯ VIỆN TỈNH THÁI NGUYÊN" placeholder="Header">
+            <label for="txtHeader" class="col-2 pl-2">Kích thước chữ</label>
+            <input type="number"  class="form-control font-weight-bold col-2" id="txtFontSizeHeader"
+            value="15" placeholder="Font-size px">
+            <label for="txtFontSizeHeader" class="col-2 pl-2">px</label>
+        </div>
+        
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtStart" class="col-6 pl-2">Bắt đầu từ số</label>
+          <input type="number" min="1" max="999999" class="form-control font-weight-bold col-6 pr-5" id="txtStart"
+            value="1" placeholder="Bắt đầu từ số">
+        </div>
+
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtItem" class="col-6 pl-2">Số lượng mã cần tạo</label>
+          <input type="number" min="1" max="999999" class="form-control font-weight-bold col-6 pr-5" id="txtItem"
+            value="10" placeholder="Số lượng cần tạo">
+        </div>
+
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtWidth" class="col-6 pl-2">Chiều rộng (px)</label>
+          <input type="number" min="270" max="300" class="form-control font-weight-bold col-6 pr-5" id="txtWidth"
+            value="270" placeholder="Chiều rộng">
+        </div>
+
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtHeight" class="col-6 pl-2">Chiều cao (px)</label>
+          <input type="number" min="50" max="150" class="form-control font-weight-bold col-6 pr-5" id="txtHeight"
+            value="60" placeholder="Chiều cao">
+        </div>
+
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtFont" class="col-6 pl-2">Phông chữ</label>
+          <select class="form-control col-6" id="txtFont">
+            <option value="Tahoma">Tahoma</option>
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="Trebuchet MS">Trebuchet MS</option>
+            <option value="Impact">Impact</option>
+          </select>
+        </div>
+
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtFormat" class="col-6 pl-2">Định dạng chữ</label>
+          <select class="form-control col-6" id="txtFormat">
+            <option value="">Mặc định</option>
+            <option value="bold">In đậm</option>
+            <option value="italic">In nghiêng</option>
+            <option value="bold italic">In đậm + In nghiêng</option>
+          </select>
+        </div>
+
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtFontsize" class="col-6 pl-2">Kích thước chữ mã vạch</label>
+          <input type="number" min="1" max="100" class="form-control font-weight-bold col-6 pr-5" id="txtFontsize"
+            value="19" placeholder="Font-size">
+        </div>
+
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtBarcodeType" class="col-6 pl-2">Loại mã vạch</label>
+          <select class="form-control col-6" id="txtBarcodeType">
+            <option value="CODE128">Mặc định - CODE 128</option>
+            <option value="CODE39">CODE39</option>
+          </select>
+        </div>
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtPrefix" class="col-6 pl-2">Tiền tố mã vạch (Thường là ký hiệu: kho, mã loại...)</label>
+          <input type="text" class="form-control font-weight-bold col-6 pr-5" id="txtPrefix" value="MANHHV."
+            placeholder="Tiền tố mã vạch">
+        </div>
+
+        <div class="form-group row mt-1 mb-4">
+          <label for="txtTemplate" class="col-6 pl-2">Định dạng số (Mặc định "000000")</label>
+          <input type="text" class="form-control font-weight-bold col-6 pr-5" id="txtTemplate" value="000000"
+            placeholder="Mẫu">
+        </div>
+
+      </form>
+      <hr>
+      <div class="row p-3">
+        <button style="width: 150px;" class="btn btn-lg btn-primary mr-1" onclick="btncreateBarcode();">
+          Tạo mã vạch
+        </button>
+        <button style="width: 150px;" class="btn btn-lg btn-success ml-1" id="btnPrint">
+          In mã vạch
+        </button>
+
+        <button style="width: 150px;" class="btn btn-lg btn-danger ml-1" onclick="btnDelete();">
+          Xóa
+        </button>
+      </div>
+
+    </div>
+    <div class="col-md-8 card text-center" id="divData" style="height: 98vh; overflow-y: scroll;">
+
+    </div>
+  </div>
+  <script>
+    function nWin(context, title) {
+      var printWindow = window.open('', '');
+      var doc = printWindow.document;
+      doc.write("<html><head>");
+      doc.write("<title>" + title + "</title>");
+      doc.write("<link href='css/bootstrap.css' rel='stylesheet' type='text/css'>");
+
+      doc.write("</head><body>");
+      doc.write("<div>");
+      doc.write(context);
+      doc.write("</div>");
+      doc.write("<script src='js/bootstrap.js'>" + "<\/script>");
+      doc.write("</body></html>");
+      doc.close();
+      function show() {
+        if (doc.readyState === "complete") {
+          printWindow.focus();
+          printWindow.print();
+          printWindow.close();
+        } else {
+          setTimeout(show, 100);
+        }
+      };
+      show();
+    };
+  </script>
+  <script>
+    $(function () {
+      $("#btnPrint").click(function () { nWin($("#divData").html(), "Barcode"); });
+    });
+  </script>
+  <script>
+
+    function btnDelete() {
+      $("#divData").empty();
+    }
+
+
+    function btncreateBarcode() {
+      btnDelete();
+      let number = $("#txtTemplate").val();
+      // Set the size and number of columns for the barcode images
+      const imageSize = { width: parseInt($("#txtWidth").val()), height: parseInt($("#txtHeight").val()) };
+      // Get the canvas element to draw the barcode onto
+      const canvas = document.getElementById('divData');
+      let iCount = (parseInt($("#txtItem").val()) + parseInt($("#txtStart").val()));
+      // Loop through each row and column to generate and display barcodes
+      const row = document.createElement('div');
+      row.style.display = 'flex';
+      row.style.flexDirection = 'row';
+      row.style.justifyContent = 'unset';
+      row.className = "row m-auto";
+      row.id = "divBarcode";
+
+      for (let j = $("#txtStart").val(); j < iCount; j++) {
+        const barcodeValue = $("#txtPrefix").val() + (parseInt(number) + j).toString().padStart(parseInt($("#txtTemplate").val().length), "0");
+    
+
+      // Create canvas element to draw the barcode onto
+        const canvasElement = document.createElement('canvas');
+        canvasElement.width = imageSize.width;
+        canvasElement.height = imageSize.height;
+        canvasElement.className = "";
+      
+        // Generate and display the barcode using JsBarcode
+        JsBarcode(canvasElement, barcodeValue, {
+          format: $("#txtBarcodeType").val(),
+          width: 1.5,
+          height: imageSize.height,
+          displayValue: true,
+          margin: 5,
+          fontOptions: $("#txtFormat").val(),
+          fontSize: parseInt($("#txtFontsize").val()),
+          font: $("#txtFont").val(),
+        });
+
+        let divD = document.createElement('div');
+        divD.className="row";
+        divD.style.width = $("#txtWidth").val()+ "px";
+        divD.style.border="1px solid #dcdcdc";
+        divD.style.marginBottom="20px";
+        divD.style.pageBreakInside="avoid";
+        divD.style.marginTop="20px";
+        divD.style.marginLeft="10px";
+        divD.style.marginRight="10px";
+        let srtDeadContent = document.createElement('span');
+        srtDeadContent.className="col-12";
+        srtDeadContent.style.fontSize = $("#txtFontSizeHeader").val() + "px";
+        srtDeadContent.style.textAlign = "center";
+        
+        srtDeadContent.style.marginBottom = "-3px";
+        srtDeadContent.style.fontFamily=$("#txtFont").val();
+        if($("#txtFormat").val()=="bold"){
+          srtDeadContent.style.fontWeight="bold";
+        }
+        
+        srtDeadContent.innerText = $("#txtHeader").val();
+        divD.appendChild(srtDeadContent);
+        // Lấy giá trị dữ liệu URL từ canvas
+        var dataURL = canvasElement.toDataURL();
+        // Tạo một đối tượng hình ảnh mới
+        var image = new Image();
+        // Gán giá trị URL dữ liệu vào thuộc tính src của đối tượng hình ảnh
+        image.src = dataURL;
+        let imgElement = document.createElement('img');
+        imgElement.width = imageSize.width;
+        imgElement.height = imageSize.height;
+        imgElement.className = "kkk col-12";
+        imgElement.src = image.src;
+        // Add the canvas element to the row div
+        divD.appendChild(imgElement);
+        row.appendChild(divD);
+      }
+      // Add the row div to the document body
+      canvas.appendChild(row);
+    }
+  </script>
+</body>
+
+</html>
