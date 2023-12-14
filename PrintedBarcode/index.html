@@ -36,7 +36,7 @@
 
         <div class="form-group row mt-5 mb-4">
           <input type="text"  class="form-control font-weight-bold col-6 pr-5" id="txtHeader"
-            value="THƯ VIỆN TỈNH THÁI NGUYÊN" placeholder="Header">
+            value="" placeholder="Header">
             <label for="txtHeader" class="col-2 pl-2">Kích thước chữ</label>
             <input type="number"  class="form-control font-weight-bold col-2" id="txtFontSizeHeader"
             value="15" placeholder="Font-size px">
@@ -58,20 +58,20 @@
         <div class="form-group row mt-1 mb-4">
           <label for="txtWidth" class="col-6 pl-2">Chiều rộng (px)</label>
           <input type="number" min="270" max="300" class="form-control font-weight-bold col-6 pr-5" id="txtWidth"
-            value="270" placeholder="Chiều rộng">
+            value="235" placeholder="Chiều rộng">
         </div>
 
         <div class="form-group row mt-1 mb-4">
           <label for="txtHeight" class="col-6 pl-2">Chiều cao (px)</label>
           <input type="number" min="50" max="150" class="form-control font-weight-bold col-6 pr-5" id="txtHeight"
-            value="60" placeholder="Chiều cao">
+            value="50" placeholder="Chiều cao">
         </div>
 
         <div class="form-group row mt-1 mb-4">
           <label for="txtFont" class="col-6 pl-2">Phông chữ</label>
           <select class="form-control col-6" id="txtFont">
-            <option value="Tahoma">Tahoma</option>
             <option value="Arial">Arial</option>
+            <option value="Tahoma">Tahoma</option>
             <option value="Times New Roman">Times New Roman</option>
             <option value="Georgia">Georgia</option>
             <option value="Comic Sans MS">Comic Sans MS</option>
@@ -105,7 +105,7 @@
         </div>
         <div class="form-group row mt-1 mb-4">
           <label for="txtPrefix" class="col-6 pl-2">Tiền tố mã vạch (Thường là ký hiệu: kho, mã loại...)</label>
-          <input type="text" class="form-control font-weight-bold col-6 pr-5" id="txtPrefix" value="MANHHV."
+          <input type="text" class="form-control font-weight-bold col-6 pr-5" id="txtPrefix" value="PD."
             placeholder="Tiền tố mã vạch">
         </div>
 
@@ -205,7 +205,7 @@
           format: $("#txtBarcodeType").val(),
           width: 1.5,
           height: imageSize.height,
-          displayValue: true,
+          displayValue: false,
           margin: 5,
           fontOptions: $("#txtFormat").val(),
           fontSize: parseInt($("#txtFontsize").val()),
@@ -243,10 +243,26 @@
         let imgElement = document.createElement('img');
         imgElement.width = imageSize.width;
         imgElement.height = imageSize.height;
-        imgElement.className = "kkk col-12";
+        imgElement.className = "kkk col-12 mt-1";
         imgElement.src = image.src;
         // Add the canvas element to the row div
         divD.appendChild(imgElement);
+
+
+        let srtDeadContent2 = document.createElement('span');
+        srtDeadContent2.className="col-12";
+        srtDeadContent2.style.fontSize = $("#txtFontsize").val() + "px";
+        srtDeadContent2.style.textAlign = "center";
+        
+        srtDeadContent2.style.marginBottom = "-3px";
+        srtDeadContent2.style.fontFamily=$("#txtFont").val();
+        if($("#txtFormat").val()=="bold"){
+          srtDeadContent2.style.fontWeight="bold";
+        }
+        
+        srtDeadContent2.innerText = barcodeValue;
+        divD.appendChild(srtDeadContent2);
+
         row.appendChild(divD);
       }
       // Add the row div to the document body
